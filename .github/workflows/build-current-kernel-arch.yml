@@ -67,7 +67,9 @@ jobs:
     steps:
       # We need to install git so the checkout is done with it
       - name: Install git
-        run: pacman -Syu --noconfirm git
+        run: pacman -Syu --noconfirm git neofetch
+      - name: (Neo)fetch the build system info
+        run: neofetch
 
       - name: Checkount linux-tkg
         uses: actions/checkout@v3.0.2
