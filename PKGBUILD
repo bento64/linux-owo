@@ -31,7 +31,6 @@ _distro="Arch"
 declare -p -x > current_env
 
 source "$_where"/customization.cfg # load default configuration from file
-source "$_where"/linux-tkg-config/prepare
 
 if [ -e "$_EXT_CONFIG_PATH" ]; then
   msg2 "External configuration file $_EXT_CONFIG_PATH will be used and will override customization.cfg values."
@@ -39,6 +38,8 @@ if [ -e "$_EXT_CONFIG_PATH" ]; then
 fi
 
 source current_env
+
+source "$_where"/linux-tkg-config/prepare
 
 # Make sure we're in a clean state
 if [ ! -e "$_where"/BIG_UGLY_FROGMINER ]; then
@@ -56,7 +57,7 @@ else
 fi
 pkgname=("${pkgbase}" "${pkgbase}-headers")
 pkgver="${_basekernel}"."${_sub}"
-pkgrel=271
+pkgrel=272
 pkgdesc='Linux-tkg'
 arch=('x86_64') # no i686 in here
 url="https://www.kernel.org/"
@@ -261,7 +262,7 @@ hackheaders() {
   msg2 "Stripping build tools..."
   local file
   while read -rd '' file; do
-    case "$(file -bi "$file")" in
+    case "$(file -Sib "$file")" in
       application/x-sharedlib\;*)      # Libraries (.so)
         strip -v $STRIP_SHARED "$file" ;;
       application/x-archive\;*)        # Libraries (.a)
